@@ -75,4 +75,8 @@ public class Docente {
     public void setActividades(List<Actividad> actividades) {
         this.actividades = actividades;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "departamento_id")
+    private Departamento departamento1;
 }

@@ -7,7 +7,9 @@ import jakarta.validation.constraints.Positive;
 import org.hibernate.type.internal.ImmutableNamedBasicTypeImpl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -113,4 +115,15 @@ public class Actividad {
     public void setEstudiantes(Set<Estudiante> estudiantes) {
         this.estudiantes = estudiantes;
     }
+
+    @ManyToMany
+    @JoinTable(
+            name = "actividad_etiqueta",
+            joinColumns = @JoinColumn(name = "actividad_id"),
+            inverseJoinColumns = @JoinColumn(name = "etiqueta_id")
+    )
+    private Set<Etiqueta> etiquetas = new HashSet<>();
+
+    @OneToMany(mappedBy = "actividad")
+    private List<Inscripcion> inscripciones = new ArrayList<>();
 }

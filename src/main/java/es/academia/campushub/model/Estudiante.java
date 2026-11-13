@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,5 +41,7 @@ public class Estudiante {
     @ManyToMany(mappedBy = "estudiantes")
     private Set<Actividad> actividades1 = new HashSet<>();
 
+    @OneToMany(mappedBy = "estudiante")
+    private List<Inscripcion> inscripciones = new ArrayList<>();
 
 }
