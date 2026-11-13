@@ -1,6 +1,9 @@
 package es.academia.campushub.model;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,20 +24,21 @@ public class Estudiante {
     @Column(unique = true)
     private String email;
 
-    @Column
-    private String fechaNacimiento;
+    @ManyToOne
+    @JoinColumn(name = "grupo_id")
+    private Grupo grupo;
 
     @Column
-    private String grupo;
+    private LocalDate fechaNacimiento;
 
     @Column
-    private String fechaInscripcion;
+    private LocalDateTime fechaInscripcion;
 
     @OneToMany(mappedBy = "actividad")
     private List<Actividad> actividades;
 
-    @ManyToMany(mappedBy = "actividades")
-    private Set<Estudiante> estudiantes = new HashSet<>();
+    @ManyToMany(mappedBy = "estudiantes")
+    private Set<Actividad> actividades1 = new HashSet<>();
 
 
 }

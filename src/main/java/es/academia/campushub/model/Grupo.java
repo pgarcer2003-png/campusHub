@@ -2,6 +2,9 @@ package es.academia.campushub.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "grupos")
 public class Grupo {
@@ -15,6 +18,10 @@ public class Grupo {
     @Column
     private int nivel;
 
-    @Column
-    private String tutor;
+    @ManyToOne
+    @JoinColumn(name = "tutor_id")
+    private Docente tutor;
+
+    @OneToMany(mappedBy = "grupo")
+    private List<Estudiante> estudiantes = new ArrayList<>();
 }

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import org.hibernate.type.internal.ImmutableNamedBasicTypeImpl;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,29 +24,31 @@ public class Actividad {
     @Column
     private String descripcion;
 
-    @Column
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TipoActividades tipoActividad;
 
-    @Column
-    private String fechaPrevista;
+    @Column(nullable = false)
+    private LocalDate fechaPrevista;
 
     @Column
     @Positive
     private Integer maximoNumeroParticipantes;
 
-    @Column
-    private String docente;
+    @ManyToOne
+    @JoinColumn(name = "docente_id")
+    private Docente docente;
 
     @ManyToMany
     @JoinTable(
             name = "actividad_estudiante",
-            joinColumns = @JoinColumn(name = "estudianteId"),
-            inverseJoinColumns = @JoinColumn(name = "actividadId"),
+            joinColumns = @JoinColumn(name = "actividad_id"),
+            inverseJoinColumns = @JoinColumn(name = "estudiante_id"),
             uniqueConstraints = @UniqueConstraint(
-                    columnNames = {"actividadId", "estudianteId"}
+                    columnNames = {"actividad_id", "estudiante_id"}
             )
     )
-    private Set<Actividad> actividades = new HashSet<>();
+    private Set<Estudiante> estudiantes = new HashSet<>();
 
     public Long getActividadId() {
         return actividadId;
@@ -79,11 +82,11 @@ public class Actividad {
         this.tipoActividad = tipoActividad;
     }
 
-    public String getFechaPrevista() {
+    public LocalDate getFechaPrevista() {
         return fechaPrevista;
     }
 
-    public void setFechaPrevista(String fechaPrevista) {
+    public void setFechaPrevista(LocalDate fechaPrevista) {
         this.fechaPrevista = fechaPrevista;
     }
 
@@ -95,19 +98,19 @@ public class Actividad {
         this.maximoNumeroParticipantes = maximoNumeroParticipantes;
     }
 
-    public String getDocente() {
+    public Docente getDocente() {
         return docente;
     }
 
-    public void setDocente(String docente) {
+    public void setDocente(Docente docente) {
         this.docente = docente;
     }
 
-    public Set<Actividad> getActividades() {
-        return actividades;
+    public Set<Estudiante> getEstudiantes() {
+        return estudiantes;
     }
 
-    public void setActividades(Set<Actividad> actividades) {
-        this.actividades = actividades;
+    public void setEstudiantes(Set<Estudiante> estudiantes) {
+        this.estudiantes = estudiantes;
     }
 }
